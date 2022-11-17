@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ReactQuery } from './server-state-sync/ReactQuery';
 
 function App() {
+  const [demo, setDemo] = useState<string>('');
+
   return (
-    <div>Hello World</div>
+    <>
+      <nav>
+        <button onClick={() => setDemo('reactQuery')}>React Query</button>
+      </nav>
+      {demo === 'reactQuery' && <ReactQuery />}
+    </>
   );
 }
 
