@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import './TodoList.css';
 import { addTodo, fetchTodos } from './services';
 import { TodoItem } from './TodoItem';
+import { ItemCounter } from './ItemCounter';
 
 
 export const TodoList = () => {
@@ -43,6 +44,7 @@ export const TodoList = () => {
 
     return (
         <div className="todo">
+            <ItemCounter />
             <h2>Status: {status}</h2>
             <h2>Fetch Status: {fetchStatus}</h2>
             <div>
