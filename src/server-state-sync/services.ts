@@ -19,12 +19,13 @@ export const addTodo = (todo: string): Promise<Item> => new Promise((resolve) =>
 });
 
 
-export const editTodo = (todo: Item): Promise<Item> => new Promise<>((resolve) => {
+export const editTodo = (todo: Item): Promise<Item> => new Promise<Item>((resolve, reject) => {
+    // setTimeout(() => {
+    //     const idx = backendTodos.findIndex(item => item.id === todo.id);
+    //     backendTodos[idx] = todo;
+    //     resolve(todo);
+    // }, 1000);
     setTimeout(() => {
-        const idx = backendTodos.findIndex(item => item.id === todo.id);
-        backendTodos[idx] = todo;
-        resolve(todo);
+        reject(null)
     }, 1000);
 });
-
-
