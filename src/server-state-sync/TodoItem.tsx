@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { editTodo } from './services';
 import { Item } from './types';
@@ -13,9 +13,8 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
     const [text, setText] = useState<string>(todo.text);
     const queryClient = useQueryClient();
 
-    const todosMutation = useMutation({
+    const editMutation = useMutation({
         mutationFn: editTodo,
-        // onSuccess: () => queryClient.invalidateQueries(['todos'])
         onMutate: async (updatedTodo) => {
             // For optimistic updates
 
@@ -34,20 +33,31 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
                     : oldTodos
             )
 
+            setIsEdit(false);
+
             // Return a context object with the snapshotted value
             return { previousTodos }
         },
         // If the mutation fails,
         // use the context returned from onMutate to roll back
-        onError: (error, updatedTodo, context) => queryClient.setQueriesData(['todos'], context?.previousTodos),
+        onError: (error, updatedTodo, context) => {
+            queryClient.setQueriesData(['todos'], context?.previousTodos)
+            alert("Server Error!");
+        },
 
-        // You can decide whether still invalidate the query and refetch once settled
-        onSettled: () => queryClient.invalidateQueries({ queryKey: ['todos'] })
+        // You can decide whether still invalidate the query and refetch once settled or on success
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['todos'] });
+        },
+        // onSuccess: () => {
+        //     queryClient.invalidateQueries({ queryKey: ['todos'] });
+        //     setIsEdit(false);
+        // }
     });
 
     const onEdit = () => {
-        todosMutation.mutate({ id: todo.id, text });
-        setIsEdit(false);
+        const editedTodo = { id: todo.id, text };
+        editMutation.mutate(editedTodo);
     }
 
     return (

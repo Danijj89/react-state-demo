@@ -28,19 +28,15 @@ export const TodoList = () => {
             // refetchOnWindowFocus: false
         });
 
-    const todosMutation = useMutation({
+    const onAddTodo = useMutation({
         mutationFn: addTodo,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['todos'] });
-        }
+            setNewTodo('');
+        },
     });
 
     const refresh = () => refetch();
-
-    const onAddTodo = () => {
-        todosMutation.mutate(newTodo);
-        setNewTodo('');
-    }
 
     return (
         <div className="todo">
@@ -69,7 +65,7 @@ export const TodoList = () => {
                             onChange={(e) => setNewTodo(e.target.value)}
                             value={newTodo}
                         />
-                        <button onClick={onAddTodo}>Add Todo</button>
+                        <button onClick={() => onAddTodo.mutate(newTodo)}>Add Todo</button>
                     </div>
                 </div>
             }
