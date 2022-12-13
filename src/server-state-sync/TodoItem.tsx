@@ -8,7 +8,6 @@ type TodoItemProps = {
 }
 
 
-
 export const TodoItem = ({ todo }: TodoItemProps) => {
     const [isEdit, setIsEdit] = useState(false);
     const [text, setText] = useState<string>(todo.text);

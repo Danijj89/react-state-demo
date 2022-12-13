@@ -6,7 +6,7 @@ export const fetchTodos = (fail: boolean = false): Promise<Item[]> =>
         setTimeout(() => fail ? reject("Something bad happened!") : resolve(backendTodos), 1000);
     })
 
-export const addTodo = (todo: string) => new Promise<Item>((resolve) => {
+export const addTodo = (todo: string): Promise<Item> => new Promise((resolve) => {
     setTimeout(() => {
         const lastItem = backendTodos.at(-1)
         const newItem = {
@@ -19,7 +19,7 @@ export const addTodo = (todo: string) => new Promise<Item>((resolve) => {
 });
 
 
-export const editTodo = (todo: Item) => new Promise<Item>((resolve) => {
+export const editTodo = (todo: Item): Promise<Item> => new Promise<>((resolve) => {
     setTimeout(() => {
         const idx = backendTodos.findIndex(item => item.id === todo.id);
         backendTodos[idx] = todo;
